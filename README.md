@@ -12,17 +12,30 @@ A two-level shortest path optimisation solution using Dijkstra's algorithm, writ
 - Java JDK 11 or higher (tested on JDK 21)
 - No external libraries required — uses only the Java standard library
 
+## Project Structure
+
+```
+rangers-rescue-route/
+├── src/
+│   └── Main.java          # Dijkstra implementation + Level 1 and Level 2 solvers
+├── test/
+│   ├── TestLevel1.java    # Unit tests for Level 1
+│   └── TestLevel2.java    # Unit tests for Level 2
+├── .gitignore
+└── README.md              # This file
+```
+
 ## How to Run
 
 1. Clone or download this repository.
-2. Open a terminal in the project folder.
+2. Open a terminal in the project's root folder.
 3. Compile the program:
    ```bash
-   javac Main.java
+   javac -d out src/Main.java
    ```
 4. Run the program:
    ```bash
-   java Main
+   java -cp out Main
    ```
 
 ## Output
@@ -47,34 +60,29 @@ If the program's printed cost for a level doesn't match, double-check the graph 
 
 ## Running the Unit Tests
 
-`Test.java` contains lightweight, dependency-free unit tests (no JUnit needed) covering both levels:
+Tests are split into one file per level — no external test framework required.
 
-- **Level 1**: optimal cost equals 9, path starts/ends at the right nodes, every step in the path follows a real edge, and self-distance is 0.
-- **Level 2**: optimal cost equals 60, there are exactly 24 station orderings (4!), risk is correctly added to time on an edge, and the best route actually visits all four required stations.
-
-To compile and run the tests:
+**Level 1** (`test/TestLevel1.java`): optimal cost equals 9, path starts/ends at the right nodes, every step in the path follows a real edge, self-distance is 0, and an unreachable node returns infinite cost.
 
 ```bash
-javac Main.java Test.java
-java Test
+javac -d out src/Main.java test/TestLevel1.java
+java -cp out TestLevel1
 ```
 
-Expected output ends with:
+**Level 2** (`test/TestLevel2.java`): optimal cost equals 60, there are exactly 24 station orderings (4!), risk is correctly added to time on an edge, the best route visits all four required stations, and it starts/ends at the correct nodes.
+
+```bash
+javac -d out src/Main.java test/TestLevel2.java
+java -cp out TestLevel2
+```
+
+Each prints a pass/fail line per test, ending with a summary like:
 
 ```
-10 passed, 0 failed.
+6 passed, 0 failed.
 ```
 
 If a test fails, it prints the expected vs. actual value so you can pinpoint the issue before submitting.
-
-## Project Structure
-
-```
-rangers-rescue-route/
-├── Main.java     # Dijkstra implementation + Level 1 and Level 2 solvers
-├── Test.java     # Unit tests for Level 1 and Level 2
-└── README.md     # This file
-```
 
 ## Approach Summary
 
